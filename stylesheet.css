@@ -1,0 +1,53 @@
+#gameBoard {
+  width: 300px;
+  height: 500px;
+  background-color: lightblue;
+
+}
+
+#powerSwitch {
+  width: 25%;
+  height: 75px;
+  background-color: gray;
+  float: left;
+}
+
+#screen {
+  width: 75%;
+  height: 75px;
+  background-color: #324E5C;
+  float: left;
+}
+
+.pad {
+  width: 50%;
+  height: 175px;
+  float: left;
+}
+
+#green {
+  background-color: #30e849;
+}
+#red {
+  background-color: #F73955;
+}
+#yellow {
+  background-color: #EEC84C;
+}
+#blue {
+  background-color: #38A3AC;
+}
+
+#start {
+  width: 49%;
+  height: 75px;
+  background-color: #DBDEB5;
+  float: left;
+  border-right: 3px solid black;
+}
+#strict {
+  width: 50%;
+  height: 75px;
+  background-color: #DBDEB5;
+  float: left;
+}
