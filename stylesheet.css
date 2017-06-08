@@ -1,53 +1,64 @@
 #gameBoard {
   width: 300px;
   height: 500px;
-  background-color: lightblue;
-
+  display: flex;
+  flex-wrap: wrap;
 }
 
+#powerSwitch.click {
+  background-color: blue;
+}
 #powerSwitch {
   width: 25%;
   height: 75px;
   background-color: gray;
-  float: left;
 }
 
 #screen {
   width: 75%;
   height: 75px;
   background-color: #324E5C;
-  float: left;
 }
 
 .pad {
   width: 50%;
   height: 175px;
-  float: left;
+  padding: 0;
 }
 
 #green {
   background-color: #30e849;
+  order: 1;
 }
 #red {
   background-color: #F73955;
+  order: 2;
 }
 #yellow {
   background-color: #EEC84C;
+  order: 3;
 }
 #blue {
   background-color: #38A3AC;
+  order: 4;
 }
 
+
 #start {
-  width: 49%;
+  width: 50%;
   height: 75px;
   background-color: #DBDEB5;
-  float: left;
-  border-right: 3px solid black;
+  text-align: center;
+  order: 5;
+}
+
+#strict.click {
+  background-color: red;
 }
 #strict {
   width: 50%;
   height: 75px;
   background-color: #DBDEB5;
-  float: left;
+  text-align: center;
+  order: 6;
 }
