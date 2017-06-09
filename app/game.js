@@ -8,6 +8,7 @@ var Game = function() {
     'yellow': new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'),
     'blue':  new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3')
   };
+  this.players = {};
   this.speed = 900;
 };
 
@@ -58,7 +59,7 @@ Game.prototype.toggleStrictModeLed = function() {
   }
 }
 Game.prototype.lightUp = function(pad) {
-  var pad = document.getElementById('green');
+  var pad = document.getElementById(pad);
 
   pad.classList.add('click');
 
@@ -67,4 +68,26 @@ Game.prototype.lightUp = function(pad) {
   }, this.speed / 2);
 };
 
+Game.prototype.addPlayer = function(name) {
+  this.players[name] = new Player();
+}
+
+Game.prototype.init = function() {
+  this.addPlayer('human');
+  this.addPlayer('computer');
+
+  this.players['computer'].generateRandomMove = function() {
+    var numberOfColors = 4;
+    var colors = ['green', 'red', 'yellow', 'blue'];
+
+    var randomColor = colors[Math.floor(Math.random() * numberOfColors)];
+    return randomColor;
+  };
+};
+
+Game.prototype.toggleRestart = function() {
+
+};
+
 var simon = new Game();
+simon.init();
