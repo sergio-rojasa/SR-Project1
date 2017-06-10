@@ -20,6 +20,15 @@
   background-color: #324E5C;
 }
 
+#digits {
+  float: right;
+  margin-top: 7%;
+  margin-right: 7%;
+  color: #f2f2f2;
+
+  font-size: 50px;
+}
+
 .pad {
   width: 50%;
   height: 175px;

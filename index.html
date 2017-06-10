@@ -17,8 +17,8 @@
     <div class="pad" id="yellow" onclick="simon.players.human.setMove('yellow'); simon.playAudio('yellow'); simon.lightUp('yellow');"></div>
     <div class="pad" id="blue" onclick="simon.players.human.setMove('blue'); simon.playAudio('blue'); simon.lightUp('blue');"></div>
 
-    <div id="start">Start</div>
-    <div id="strict" onclick="simon.toggleStrictMode(); simon.toggleLed('strict');">Strict</div>
+    <div id="start" onclick="simon.toggleRestart();">Start</div>
+    <div id="strict" onclick="simon.toggleStrictMode();">Strict</div>
   </div>
   <script src="app/player.js"></script>
   <script src="app/game.js"></script>

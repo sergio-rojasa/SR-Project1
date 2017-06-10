@@ -2,6 +2,7 @@ var Game = function() {
   this.power = false;
   this.strictMode = false;
   this.currentStep = 0;
+  this.currentPlayer = null;
   this.audio = {
     'green': new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'),
     'red':  new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'),
@@ -24,6 +25,7 @@ Game.prototype.toggleStrictMode = function() {
 Game.prototype.getStrictMode = function() {
   return this.strictMode;
 };
+
 Game.prototype.addCurrentStep = function() {
   this.currentStep++;
 };
@@ -32,6 +34,18 @@ Game.prototype.clearCurrentStep = function() {
 };
 Game.prototype.getCurrentStep = function() {
   return this.currentStep;
+};
+Game.prototype.displayCurrentStep = function() {
+    var digits = document.getElementById('digits');
+
+    digits.innerHTML = this.getCurrentStep();
+};
+
+Game.prototype.getCurrentPlayer = function() {
+  return this.currentPlayer;
+}
+Game.prototype.setCurrentPlayer = function(player) {
+  this.currentPlayer = player;
 };
 
 Game.prototype.playAudio = function(pad) {
@@ -86,7 +100,15 @@ Game.prototype.init = function() {
 };
 
 Game.prototype.toggleRestart = function() {
-
+    if(this.getPower()) {
+      console.log('power on.');
+      this.clearCurrentStep();
+      this.setCurrentPlayer('computer');
+      this.displayCurrentStep();
+    }
+    else {
+      console.log("power off");
+    }
 };
 
 var simon = new Game();
