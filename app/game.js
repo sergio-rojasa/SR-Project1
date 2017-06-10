@@ -49,7 +49,7 @@ Game.prototype.addPlayer = function(name) {
 };
 
 Game.prototype.playTone = function(signal) {
-    this.audio[signal].play();
+    this.tones[signal].play();
 }
 Game.prototype.lightUpLens = function(signal) {
     var colorLens = document.getElementById(signal);
@@ -72,6 +72,8 @@ Game.prototype.clearDisplayScreen = function() {
         digits.innerHTML = "";
     }
 };
+
+
 
 Game.prototype.togglePowerLed = function() {
     var powerLed = document.getElementById('power');

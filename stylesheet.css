@@ -29,38 +29,42 @@
   font-size: 50px;
 }
 
-.pad {
+.lens {
   width: 50%;
   height: 175px;
   padding: 0;
 }
 
 #green.click {
-  background-color: #21a533;
+  background-color: #30e849;
 }
 #green {
-  background-color: #30e849;
+  background-color: #21a533;
+
   order: 1;
 }
 #red.click {
-  background-color: #bc2b40;
+  background-color: #F73955;
 }
 #red {
-  background-color: #F73955;
+
+  background-color: #bc2b40;
   order: 2;
 }
 #yellow.click {
-  background-color: #af9338;
+ background-color: #EEC84C;
 }
 #yellow {
-  background-color: #EEC84C;
+
+   background-color: #af9338;
   order: 3;
 }
 #blue.click {
-  background-color: #246c72;
+  background-color: #38A3AC;
 }
 #blue {
-  background-color: #38A3AC;
+
+  background-color: #246c72;
   order: 4;
 }
 
