@@ -5,7 +5,7 @@ var Game = function() {
   this.speed = 900;
   this.currentPlayer = null;
   this.players = {};
-  this.audio = {
+  this.tones = {
     'green': new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'),
     'red':  new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'),
     'yellow': new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'),
@@ -13,10 +13,10 @@ var Game = function() {
   };
 };
 
-Game.prototype.togglePower = function() {
+Game.prototype.togglePowerSwitch = function() {
     this.power = !this.power;
 };
-Game.prototype.getPower = function() {
+Game.prototype.getPowerState = function() {
     return this.power;
 };
 
@@ -107,7 +107,6 @@ Game.prototype.init = function() {
         return randomSignal;
     }
 };
-
 
 
 

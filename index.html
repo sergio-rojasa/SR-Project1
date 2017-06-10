@@ -7,15 +7,15 @@
 </head>
 <body>
   <div id="gameBoard">
-    <div id="powerSwitch" onclick="simon.togglePower(); simon.toggleLed('powerSwitch'); simon.clearDisplayScreen();"></div>
+    <div id="powerSwitch" onclick="simon.togglePowerSwitch(); simon.toggleLed('powerSwitch'); simon.clearDisplayScreen();"></div>
     <div id="screen">
       <p id="digits"></p>
     </div>
 
-    <div class="pad" id="green" onclick="simon.players.human.setMove('green'); simon.playAudio('green'); simon.lightUp('green');"></div>
-    <div class="pad" id="red" onclick="simon.players.human.setMove('red'); simon.playAudio('red'); simon.lightUp('red');"></div>
-    <div class="pad" id="yellow" onclick="simon.players.human.setMove('yellow'); simon.playAudio('yellow'); simon.lightUp('yellow');"></div>
-    <div class="pad" id="blue" onclick="simon.players.human.setMove('blue'); simon.playAudio('blue'); simon.lightUp('blue');"></div>
+    <div class="lens" id="green" onclick="simon.players.human.setMove('green'); simon.playAudio('green'); simon.lightUp('green');"></div>
+    <div class="lens" id="red" onclick="simon.players.human.setMove('red'); simon.playAudio('red'); simon.lightUp('red');"></div>
+    <div class="lens" id="yellow" onclick="simon.players.human.setMove('yellow'); simon.playAudio('yellow'); simon.lightUp('yellow');"></div>
+    <div class="lens" id="blue" onclick="simon.players.human.setMove('blue'); simon.playAudio('blue'); simon.lightUp('blue');"></div>
 
     <div id="start" onclick="simon.toggleRestart();">Start</div>
     <div id="strict" onclick="simon.toggleStrictMode(); simon.toggleStrictModeLed();">Strict</div>
