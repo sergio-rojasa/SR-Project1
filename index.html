@@ -7,7 +7,7 @@
 </head>
 <body>
   <div id="gameBoard">
-    <div id="powerSwitch" onclick="simon.togglePower(); simon.toggleLed('powerSwitch');"></div>
+    <div id="powerSwitch" onclick="simon.togglePower(); simon.toggleLed('powerSwitch'); simon.clearDisplayScreen();"></div>
     <div id="screen">
       <p id="digits"></p>
     </div>
@@ -18,7 +18,7 @@
     <div class="pad" id="blue" onclick="simon.players.human.setMove('blue'); simon.playAudio('blue'); simon.lightUp('blue');"></div>
 
     <div id="start" onclick="simon.toggleRestart();">Start</div>
-    <div id="strict" onclick="simon.toggleStrictMode();">Strict</div>
+    <div id="strict" onclick="simon.toggleStrictMode(); simon.toggleStrictModeLed();">Strict</div>
   </div>
   <script src="app/player.js"></script>
   <script src="app/game.js"></script>
