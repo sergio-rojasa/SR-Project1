@@ -60,57 +60,56 @@ Game.prototype.lightUpLens = function(signal) {
     }, this.speed / 2);
 };
 
-
-Game.prototype.displayCurrentStep = function() {
+Game.prototype.updateDisplayScreen = function() {
     var digits = document.getElementById('digits');
 
-    digits.innerHTML = this.getCurrentStep();
+    digits.innerHTML = this.getCurrentSignalNumber();
 };
 Game.prototype.clearDisplayScreen = function() {
     if(!this.getPower()) {
-      var digits = document.getElementById('digits');
+        var digits = document.getElementById('digits');
 
-      digits.innerHTML = "";
+        digits.innerHTML = "";
     }
+};
 
-}
+Game.prototype.togglePowerLed = function() {
+    var powerLed = document.getElementById('power');
 
-Game.prototype.toggleLed = function(led) {
-  var led = document.getElementById(led);
-
-  if(this.getPower()) {
-    led.classList.add('click');
-  }
-  else {
-    led.classList.remove('click');
-  }
+    if(this.getPower()) {
+        powerLed.classList.add('click');
+    }
+    else {
+        powerLed.classList.remove('click');
+    }
 };
 Game.prototype.toggleStrictModeLed = function() {
-  var strict = document.getElementById('strict');
+    var strictModeLed = document.getElementById('strict');
 
-  if(this.getStrictMode()) {
-    strict.classList.add('click');
-  }
-  else {
-    strict.classList.remove('click');
-  }
-}
-
-
-
+    if(this.getStrictMode()) {
+        strictModeLed.classList.add('click');
+    }
+    else {
+        strictModeLed.classList.remove('click');
+    }
+};
 
 Game.prototype.init = function() {
-  this.addPlayer('human');
-  this.addPlayer('computer');
+    this.addPlayer('human');
+    this.addPlayer('computer');
 
-  this.players['computer'].generateRandomMove = function() {
-    var numberOfColors = 4;
-    var colors = ['green', 'red', 'yellow', 'blue'];
+    this.players['computer'].generateRandomSignal = function() {
+        var numberOfSignals = 4;
+        var signals = ['green', 'red', 'yellow', 'blue'];
 
-    var randomColor = colors[Math.floor(Math.random() * numberOfColors)];
-    return randomColor;
-  };
+        var randomSignal = signals[Math.floor(Math.random() * numberOfSignals)];
+
+        return randomSignal;
+    }
 };
+
+
+
 
 Game.prototype.toggleRestart = function() {
     if(this.getPower()) {
