@@ -26,17 +26,29 @@
   padding: 0;
 }
 
+#green.click {
+  background-color: #21a533;
+}
 #green {
   background-color: #30e849;
   order: 1;
+}
+#red.click {
+  background-color: #bc2b40;
 }
 #red {
   background-color: #F73955;
   order: 2;
 }
+#yellow.click {
+  background-color: #af9338;
+}
 #yellow {
   background-color: #EEC84C;
   order: 3;
+}
+#blue.click {
+  background-color: #246c72;
 }
 #blue {
   background-color: #38A3AC;

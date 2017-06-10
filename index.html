@@ -12,10 +12,10 @@
       <p id="digits"></p>
     </div>
 
-    <div class="pad" id="green"></div>
-    <div class="pad" id="red"></div>
-    <div class="pad" id="yellow"></div>
-    <div class="pad" id="blue"></div>
+    <div class="pad" id="green" onclick="simon.players.human.setMove('green'); simon.playAudio('green'); simon.lightUp('green');"></div>
+    <div class="pad" id="red" onclick="simon.players.human.setMove('red'); simon.playAudio('red'); simon.lightUp('red');"></div>
+    <div class="pad" id="yellow" onclick="simon.players.human.setMove('yellow'); simon.playAudio('yellow'); simon.lightUp('yellow');"></div>
+    <div class="pad" id="blue" onclick="simon.players.human.setMove('blue'); simon.playAudio('blue'); simon.lightUp('blue');"></div>
 
     <div id="start">Start</div>
     <div id="strict" onclick="simon.toggleStrictMode(); simon.toggleLed('strict');">Strict</div>
