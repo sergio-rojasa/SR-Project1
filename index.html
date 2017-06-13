@@ -12,10 +12,10 @@
       <p id="digits"></p>
     </div>
 
-    <div class="lens" id="green" onclick="simon.playTone('green'); simon.lightUpLens('green');"></div>
-    <div class="lens" id="red" onclick="simon.playTone('red'); simon.lightUpLens('red');"></div>
-    <div class="lens" id="yellow" onclick="simon.playTone('yellow'); simon.lightUpLens('yellow');"></div>
-    <div class="lens" id="blue" onclick="simon.playTone('blue'); simon.lightUpLens('blue');"></div>
+    <button class="lens" id="green" onclick="simon.checkHumanMove('green');"></button>
+    <button class="lens" id="red" onclick="simon.checkHumanMove('red');"></button>
+    <button class="lens" id="yellow" onclick="simon.checkHumanMove('yellow');"></button>
+    <button class="lens" id="blue" onclick="simon.checkHumanMove('blue');"></button>
 
     <div id="start" onclick="simon.toggleRestart();">Start</div>
     <div id="strictMode" onclick="simon.toggleStrictMode(); simon.toggleStrictModeBulb();">Strict</div>
