@@ -117,23 +117,39 @@ Game.prototype.toggleRestart = function() {
     }
 };
 
-Game.prototype.animateComputerMoves = function() {
+Game.prototype.animateComputerMoves = function(currentSignalNumber) {
+    var index = 0;
     var game = this;
+    var computerTurnAnimation = setInterval(function() {
+        game.lightUpLens(game.players['computer'].moves[index])
+        game.playTone(game.players['computer'].moves[index]);
 
+        index++;
+        if(index >= currentSignalNumber) {
+            clearInterval(computerTurnAnimation);
+
+            var onHumanTurnToMove = new Event('onHumanTurnToMove');
+            document.dispatchEvent(onHumanTurnToMove);
+        }
+    }, 1000);
 };
 Game.prototype.setupEventListeners = function() {
     document.addEventListener('onComputerTurnToMove', function() {
         simon.addOneSignal();
+        simon.updateDisplayScreen();
         simon.players['computer'].setMove(simon.players['computer'].generateRandomSignal());
         simon.animateComputerMoves(simon.getCurrentSignalNumber());
-        simon.updateDisplayScreen();
+
         console.log('Received event onComputerTurnToMove');
     });
-/*    var onComputerTurnToMove = new Event('onComputerTurnToMove');
-    document.body.addEventListener('onComputerTurnToMove', function(e) {
-        console.log('Received event onComputerTurnToMove');
+    document.addEventListener('onHumanTurnToMove', function() {
+        console.log("It's the human turn to move");
+
+        var onComputerTurnToMove = new Event('onComputerTurnToMove');
+        document.dispatchEvent(onComputerTurnToMove)
+    
     });
-    document.body.dispatchEvent(onComputerTurnToMove);
+/*
 
     var onHumanTurnToMove = new Event('onHumanTurnToMove');
     document.body.addEventListener('onHumanTurnToMove', function(e) {
