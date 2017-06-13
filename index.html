@@ -7,7 +7,7 @@
 </head>
 <body>
   <div id="gameBoard">
-    <div id="powerSwitch" onclick="simon.togglePowerSwitch();"></div>
+    <div id="powerSwitch" onclick="simon.togglePowerSwitch(); simon.clearDisplayScreen(); simon.togglePowerBulb();"></div>
     <div id="screen">
       <p id="digits"></p>
     </div>
@@ -17,8 +17,8 @@
     <div class="lens" id="yellow" onclick="simon.playTone('yellow'); simon.lightUpLens('yellow');"></div>
     <div class="lens" id="blue" onclick="simon.playTone('blue'); simon.lightUpLens('blue');"></div>
 
-    <div id="start" onclick="">Start</div>
-    <div id="strict" onclick="simon.toggleStrictMode();">Strict</div>
+    <div id="start" onclick="simon.toggleRestart();">Start</div>
+    <div id="strictMode" onclick="simon.toggleStrictMode(); simon.toggleStrictModeBulb();">Strict</div>
   </div>
   <script src="app/player.js"></script>
   <script src="app/game.js"></script>

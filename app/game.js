@@ -38,7 +38,7 @@ Game.prototype.getCurrentSignalNumber = function() {
 };
 
 Game.prototype.setCurrentPlayer = function(player) {
-        this.currentPlayer = player;
+    this.currentPlayer = player;
 };
 Game.prototype.getCurrentPlayer = function() {
     return this.currentPlayer;
@@ -62,37 +62,34 @@ Game.prototype.lightUpLens = function(signal) {
 
 Game.prototype.updateDisplayScreen = function() {
     var digits = document.getElementById('digits');
-
     digits.innerHTML = this.getCurrentSignalNumber();
 };
 Game.prototype.clearDisplayScreen = function() {
-    if(!this.getPower()) {
+    if(!this.getPowerState()) {
         var digits = document.getElementById('digits');
-
         digits.innerHTML = "";
     }
 };
 
 
+Game.prototype.togglePowerBulb = function() {
+    var powerBulb = document.getElementById('powerSwitch');
 
-Game.prototype.togglePowerLed = function() {
-    var powerLed = document.getElementById('power');
-
-    if(this.getPower()) {
-        powerLed.classList.add('click');
+    if(this.getPowerState()) {
+        powerBulb.classList.add('click');
     }
     else {
-        powerLed.classList.remove('click');
+        powerBulb.classList.remove('click');
     }
 };
-Game.prototype.toggleStrictModeLed = function() {
-    var strictModeLed = document.getElementById('strict');
+Game.prototype.toggleStrictModeBulb = function() {
+    var strictModeBulb = document.getElementById('strictMode');
 
     if(this.getStrictMode()) {
-        strictModeLed.classList.add('click');
+        strictModeBulb.classList.add('click');
     }
     else {
-        strictModeLed.classList.remove('click');
+        strictModeBulb.classList.remove('click');
     }
 };
 
@@ -110,18 +107,50 @@ Game.prototype.init = function() {
     }
 };
 
-
-
 Game.prototype.toggleRestart = function() {
-    if(this.getPower()) {
-      console.log('power on.');
-      this.clearCurrentStep();
+    if(this.getPowerState()) {
+      this.clearSignalNumber();
+     // this.clearEventListeners();
+      this.setupEventListeners();
       this.setCurrentPlayer('computer');
-      this.displayCurrentStep();
+      this.startGame();
     }
-    else {
-      console.log("power off");
-    }
+};
+
+Game.prototype.animateComputerMoves = function() {
+    var game = this;
+
+};
+Game.prototype.setupEventListeners = function() {
+    document.addEventListener('onComputerTurnToMove', function() {
+        simon.addOneSignal();
+        simon.players['computer'].setMove(simon.players['computer'].generateRandomSignal());
+        simon.animateComputerMoves(simon.getCurrentSignalNumber());
+        simon.updateDisplayScreen();
+        console.log('Received event onComputerTurnToMove');
+    });
+/*    var onComputerTurnToMove = new Event('onComputerTurnToMove');
+    document.body.addEventListener('onComputerTurnToMove', function(e) {
+        console.log('Received event onComputerTurnToMove');
+    });
+    document.body.dispatchEvent(onComputerTurnToMove);
+
+    var onHumanTurnToMove = new Event('onHumanTurnToMove');
+    document.body.addEventListener('onHumanTurnToMove', function(e) {
+        console.log('Its the humans turn to move');
+    });
+    document.body.dispatchEvent(onHumanTurnToMove);
+
+    var onHumanMoved = new Event('onHumanMoved');
+    document.body.addEventListener('onHumanMoved', function(e) {
+
+    });
+*/
+};
+
+Game.prototype.startGame = function() {
+   var onComputerTurnToMove = new Event('onComputerTurnToMove');
+   document.dispatchEvent(onComputerTurnToMove);
 };
 
 var simon = new Game();

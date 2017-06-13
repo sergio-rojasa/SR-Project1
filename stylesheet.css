@@ -76,10 +76,10 @@
   order: 5;
 }
 
-#strict.click {
+#strictMode.click {
   background-color: red;
 }
-#strict {
+#strictMode {
   width: 50%;
   height: 75px;
   background-color: #DBDEB5;
