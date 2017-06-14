@@ -65,6 +65,10 @@ Game.prototype.clearEventListeners = function() {
     document.removeEventListener("startComputerTurnEvent", this.startComputerTurnEvent);
     document.removeEventListener("onComputerTurnToMoveEvent", this.onComputerTurnToMoveEvent);
     document.removeEventListener("computerFinishedMoveEvent", this.computerFinishedMoveEvent);
+
+    document.removeEventListener("startHumanTurnEvent", this.startHumanTurnEvent);
+    document.removeEventListener("checkHumanMoveEvent", this.checkHumanMoveEvent);
+    document.removeEventListener("humanFinishedMoveEvent", this.humanFinishedMoveEvent);
 };
 Game.prototype.setupEventListeners = function() {
     console.log("Seting up event listeners.");
@@ -72,10 +76,22 @@ Game.prototype.setupEventListeners = function() {
     document.addEventListener("onComputerTurnToMoveEvent", this.onComputerTurnToMoveEvent);
     document.addEventListener("computerFinishedMoveEvent", this.computerFinishedMoveEvent);
 
-  /*
-  document.body.addEventListener('startHumanTurn', startHumanTurn);
-  document.body.addEventListener('onHumanTurnToMove', onHumanTurnToMove);
-  */
+    document.addEventListener("startHumanTurnEvent", this.startHumanTurnEvent);
+    document.addEventListener("checkHumanMoveEvent", this.checkHumanMoveEvent);
+    document.addEventListener("humanFinishedMoveEvent", this.humanFinishedMoveEvent);
+};
+
+Game.prototype.enableColorLens = function() {
+    document.getElementById("green").disabled = false;;
+    document.getElementById("red").disabled = false;
+    document.getElementById("yellow").disabled = false;
+    document.getElementById("blue").disabled = false;
+};
+Game.prototype.disableColorLens = function() {
+    document.getElementById("green").disabled = true;
+    document.getElementById('red').disabled = true;
+    document.getElementById('yellow').disabled = true;
+    document.getElementById('blue').disabled = true;
 };
 
 Game.prototype.init = function() {
@@ -98,7 +114,6 @@ Game.prototype.toggleRestart = function() {
         this.startGame();
     }
 };
-
 Game.prototype.startGame = function() {
     console.log("Starting game");
     var startComputerTurnEvent = new Event("startComputerTurnEvent");
@@ -107,75 +122,74 @@ Game.prototype.startGame = function() {
 
 Game.prototype.startComputerTurnEvent = function() {
     console.log("start computer turn event");
+
+    simon.disableColorLens();
+    simon.addOneSignalNumber();
+    simon.updateDisplayScreen();
+
+    var onComputerTurnToMoveEvent = new Event("onComputerTurnToMoveEvent");
+    document.dispatchEvent(onComputerTurnToMoveEvent);
 };
 Game.prototype.onComputerTurnToMoveEvent = function() {
     console.log("on computer turn to move event");
+
+    var generatedRandomSignal = simon.players["computer"].generateRandomSignal();
+    simon.players["computer"].setMove(generatedRandomSignal);
+
+    simon.animateComputerMoves(simon.getCurrentSignalNumber());
+
 };
 Game.prototype.computerFinishedMoveEvent = function() {
     console.log("Computer finished move event");
-};
 
-var startComputerTurn = function() {
-    console.log("starting computer turn.");
-
-    document.getElementById("green").disabled = true;
-    document.getElementById('red').disabled = true;
-    document.getElementById('yellow').disabled = true;
-    document.getElementById('blue').disabled = true;
-
-    simon.addOneSignal();
-    simon.updateDisplayScreen();
-
-    var onComputerTurn = new Event('onComputerTurnToMove');
-    document.body.dispatchEvent(onComputerTurn);
-};
-var onComputerTurnToMove = function() {
-    simon.players['computer'].setMove(simon.players['computer'].generateRandomSignal());
-    simon.animateComputerMoves(simon.getCurrentSignalNumber());
-
-
-};
-var computerFinishedMove = function() {
-    var startHumanTurn = new Event('startHumanTurn');
-    document.body.dispatchEvent(startHumanTurn);
+    var startHumanTurnEvent = new Event("startHumanTurnEvent");
+    document.dispatchEvent(startHumanTurnEvent);
 };
 Game.prototype.animateComputerMoves = function(currentSignalNumber) {
-    var index = 0;
+    console.log("animating computer moves");
+
     var game = this;
+    var index = 0;
+
     var computerTurnAnimation = setInterval(function() {
-        game.lightUpLens(game.players['computer'].moves[index])
-        game.playTone(game.players['computer'].moves[index]);
+        var computerSignal = game.players["computer"].moves[index];
+        game.lightUpLens(computerSignal);
+        game.playTone(computerSignal);
 
         index++;
         if(index >= currentSignalNumber) {
             clearInterval(computerTurnAnimation);
-            var computerFinished = new Event('computerFinishedMove');
-            document.body.dispatchEvent(computerFinished);
+
+            var computerFinishedMoveEvent = new Event("computerFinishedMoveEvent");
+            document.dispatchEvent(computerFinishedMoveEvent);
         }
     }, 1000);
+
 };
 
-var startHumanTurn = function() {
-    console.log('Starting human turn.');
-    document.getElementById("green").disabled = false;;
-    document.getElementById("red").disabled = false;
-    document.getElementById("yellow").disabled = false;
-    document.getElementById("blue").disabled = false;
+Game.prototype.startHumanTurnEvent = function() {
+    console.log("starting human turn event");
 
-    simon.players['human'].clearMoves();
-
-    var onHumanTurn = new Event('onHumanTurnToMove');
-    document.body.dispatchEvent(onHumanTurn);
+    simon.enableColorLens();
+    simon.players["human"].clearMoves();
 };
-var onHumanTurnToMove = function() {
-    console.log("It's the human turn to move.");
+Game.prototype.checkHumanMoveEvent = function(signal) {
+    console.log("checking human move event");
 
+    this.players["human"].setMove(signal);
 
+    simon.humanFinishedMoveEvent();
+
+};
+Game.prototype.humanFinishedMoveEvent = function() {
+    console.log("human finished move event");
+
+    var startComputerTurnEvent = new Event("startComputerTurnEvent");
+    document.dispatchEvent(startComputerTurnEvent);
 };
 
 Game.prototype.checkHumanMove = function(signal) {
     console.log("Checking human move");
-    this.players['human'].setMove(signal);
 
 
     if(signal != this.players['computer'].moves[this.getCurrentSignalNumber()-1]) {
@@ -186,11 +200,6 @@ Game.prototype.checkHumanMove = function(signal) {
     }
 
     this.animateHumanMoves(signal)
-};
-
-
-Game.prototype.humanFinishedMove = function() {
-
 };
 Game.prototype.animateHumanMoves = function(signal) {
     console.log(signal)

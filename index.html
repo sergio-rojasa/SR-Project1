@@ -7,18 +7,18 @@
 </head>
 <body>
   <div id="gameBoard">
-    <div id="powerSwitch" onclick="simon.togglePowerSwitch(); simon.clearDisplayScreen(); simon.togglePowerBulb();"></div>
+    <div id="powerSwitch" onclick="simon.togglePowerSwitch(); simon.clearDisplayScreen(); "></div>
     <div id="screen">
       <p id="digits"></p>
     </div>
 
-    <button class="lens" id="green" onclick="simon.checkHumanMove('green');"></button>
-    <button class="lens" id="red" onclick="simon.checkHumanMove('red');"></button>
-    <button class="lens" id="yellow" onclick="simon.checkHumanMove('yellow');"></button>
-    <button class="lens" id="blue" onclick="simon.checkHumanMove('blue');"></button>
+    <button class="lens" id="green" onclick="simon.checkHumanMoveEvent('green');"></button>
+    <button class="lens" id="red" onclick="simon.checkHumanMoveEvent('red');"></button>
+    <button class="lens" id="yellow" onclick="simon.checkHumanMoveEvent('yellow');"></button>
+    <button class="lens" id="blue" onclick="simon.checkHumanMoveEvent('blue');"></button>
 
     <div id="start" onclick="simon.toggleRestart();">Start</div>
-    <div id="strictMode" onclick="simon.toggleStrictMode(); simon.toggleStrictModeBulb();">Strict</div>
+    <div id="strictMode" onclick="simon.toggleStrictMode(); ">Strict</div>
   </div>
   <script src="app/player.js"></script>
   <script src="app/game.js"></script>
