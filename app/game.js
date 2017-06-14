@@ -108,8 +108,10 @@ Game.prototype.init = function() {
 };
 Game.prototype.toggleRestart = function() {
     if(this.getPowerState()) {
+        console.log("Toggle restart");
         simon.players["computer"].clearMoves();
         simon.players["human"].clearMoves();
+        this.clearDisplayScreen();
         this.clearSignalNumber();
         this.clearEventListeners();
         this.setupEventListeners();
@@ -178,8 +180,15 @@ Game.prototype.startHumanTurnEvent = function() {
 Game.prototype.checkHumanMoveEvent = function(signal) {
     console.log("checking human move event");
 
+    var computerIndex = 0;
+    var computerSignal = this.players["computer"].moves[computerIndex];
+
     this.players["human"].setMove(signal);
 
+    if(signal != computerSignal) {
+        alert("Wrong move");
+        return simon.toggleRestart();
+    }
     simon.humanFinishedMoveEvent();
 
 };
