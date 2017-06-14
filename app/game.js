@@ -62,14 +62,17 @@ Game.prototype.clearDisplayScreen = function() {
 
 Game.prototype.clearEventListeners = function() {
     console.log("Clear event listeners.");
+    document.removeEventListener("startComputerTurnEvent", this.startComputerTurnEvent);
+    document.removeEventListener("onComputerTurnToMoveEvent", this.onComputerTurnToMoveEvent);
+    document.removeEventListener("computerFinishedMoveEvent", this.computerFinishedMoveEvent);
 };
 Game.prototype.setupEventListeners = function() {
     console.log("Seting up event listeners.");
-  /*
-  document.body.addEventListener('startComputerTurn', startComputerTurn);
-  document.body.addEventListener("onComputerTurnToMove", onComputerTurnToMove);
-  document.body.addEventListener('computerFinishedMove', computerFinishedMove);
+    document.addEventListener("startComputerTurnEvent", this.startComputerTurnEvent);
+    document.addEventListener("onComputerTurnToMoveEvent", this.onComputerTurnToMoveEvent);
+    document.addEventListener("computerFinishedMoveEvent", this.computerFinishedMoveEvent);
 
+  /*
   document.body.addEventListener('startHumanTurn', startHumanTurn);
   document.body.addEventListener('onHumanTurnToMove', onHumanTurnToMove);
   */
@@ -89,18 +92,29 @@ Game.prototype.init = function() {
 };
 Game.prototype.toggleRestart = function() {
     if(this.getPowerState()) {
-      this.clearSignalNumber();
-      this.clearEventListeners();
-      this.setupEventListeners();
-      this.startGame();
+        this.clearSignalNumber();
+        this.clearEventListeners();
+        this.setupEventListeners();
+        this.startGame();
     }
 };
 
 Game.prototype.startGame = function() {
-   var startComputer = new Event('startComputerTurn');
-   document.body.dispatchEvent(startComputer);
-
+    console.log("Starting game");
+    var startComputerTurnEvent = new Event("startComputerTurnEvent");
+    document.dispatchEvent(startComputerTurnEvent);
 };
+
+Game.prototype.startComputerTurnEvent = function() {
+    console.log("start computer turn event");
+};
+Game.prototype.onComputerTurnToMoveEvent = function() {
+    console.log("on computer turn to move event");
+};
+Game.prototype.computerFinishedMoveEvent = function() {
+    console.log("Computer finished move event");
+};
+
 var startComputerTurn = function() {
     console.log("starting computer turn.");
 
