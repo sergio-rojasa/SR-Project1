@@ -1,44 +1,47 @@
 var Game = function() {
-  this.power = false;
-  this.strictMode = false;
-  this.signalNumber = 0;
-  this.speed = 900;
-  this.players = {};
-  this.tones = {
-    'green': new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'),
-    'red':  new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'),
-    'yellow': new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'),
-    'blue':  new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3')
-  };
+    this.power = false;
+    this.strictMode = false;
+    this.signalNumber = 0;
+    this.players = {};
+    this.tones = {
+        "green": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
+        "red": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
+        "yellow": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
+        "blue": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3")
+    };
+    this.speed = 900;
 };
 
-Game.prototype.togglePowerSwitch = function() {
-    this.power = !this.power;
-};
 Game.prototype.getPowerState = function() {
     return this.power;
 };
-
-Game.prototype.toggleStrictMode = function() {
-    this.strictMode = !this.strictMode;
+Game.prototype.togglePowerSwitch = function() {
+    this.power = !this.power;
 };
+
 Game.prototype.getStrictMode = function() {
     return this.strictMode;
 };
+Game.prototype.toggleStrictMode = function() {
+    this.strictMode = !this.strictMode;
+};
 
-Game.prototype.clearSignalNumber = function() {
-    this.signalNumber = 0;
-};
-Game.prototype.addOneSignal = function() {
-    this.signalNumber++;
-};
 Game.prototype.getCurrentSignalNumber = function() {
     return this.signalNumber;
 };
+Game.prototype.clearSignalNumber = function() {
+    this.signalNumber = 0;
+};
+Game.prototype.addOneSignalNumber = function() {
+    this.signalNumber++;
+};
 
+Game.prototype.addPlayer = function(name) {
+    this.players[name] = new Player();
+};
 Game.prototype.playTone = function(signal) {
     this.tones[signal].play();
-}
+};
 Game.prototype.lightUpLens = function(signal) {
     var colorLens = document.getElementById(signal);
 
@@ -49,55 +52,41 @@ Game.prototype.lightUpLens = function(signal) {
 };
 
 Game.prototype.updateDisplayScreen = function() {
-    var digits = document.getElementById('digits');
+    var digits = document.getElementById("digits");
     digits.innerHTML = this.getCurrentSignalNumber();
 };
 Game.prototype.clearDisplayScreen = function() {
-    if(!this.getPowerState()) {
-        var digits = document.getElementById('digits');
-        digits.innerHTML = "";
-    }
+    var digits = document.getElementById("digits");
+    digits.innerHTML = "";
 };
 
-Game.prototype.addPlayer = function(name) {
-    this.players[name] = new Player();
+Game.prototype.clearEventListeners = function() {
+    console.log("Clear event listeners.");
 };
+Game.prototype.setupEventListeners = function() {
+    console.log("Seting up event listeners.");
+  /*
+  document.body.addEventListener('startComputerTurn', startComputerTurn);
+  document.body.addEventListener("onComputerTurnToMove", onComputerTurnToMove);
+  document.body.addEventListener('computerFinishedMove', computerFinishedMove);
 
-Game.prototype.togglePowerBulb = function() {
-    var powerBulb = document.getElementById('powerSwitch');
-
-    if(this.getPowerState()) {
-        powerBulb.classList.add('click');
-    }
-    else {
-        powerBulb.classList.remove('click');
-    }
-};
-Game.prototype.toggleStrictModeBulb = function() {
-    var strictModeBulb = document.getElementById('strictMode');
-
-    if(this.getStrictMode()) {
-        strictModeBulb.classList.add('click');
-    }
-    else {
-        strictModeBulb.classList.remove('click');
-    }
+  document.body.addEventListener('startHumanTurn', startHumanTurn);
+  document.body.addEventListener('onHumanTurnToMove', onHumanTurnToMove);
+  */
 };
 
 Game.prototype.init = function() {
-    this.addPlayer('human');
-    this.addPlayer('computer');
+    this.addPlayer("human");
+    this.addPlayer("computer");
 
-    this.players['computer'].generateRandomSignal = function() {
+    this.players["computer"].generateRandomSignal = function() {
         var numberOfSignals = 4;
-        var signals = ['green', 'red', 'yellow', 'blue'];
-
+        var signals = ["green", "red", "yellow", "blue"];
         var randomSignal = signals[Math.floor(Math.random() * numberOfSignals)];
 
         return randomSignal;
-    }
+    };
 };
-
 Game.prototype.toggleRestart = function() {
     if(this.getPowerState()) {
       this.clearSignalNumber();
@@ -105,17 +94,6 @@ Game.prototype.toggleRestart = function() {
       this.setupEventListeners();
       this.startGame();
     }
-};
-Game.prototype.clearEventListeners = function() {
-    console.log("clear event listeners");
-};
-Game.prototype.setupEventListeners = function() {
-    document.body.addEventListener('startComputerTurn', startComputerTurn);
-    document.body.addEventListener("onComputerTurnToMove", onComputerTurnToMove);
-    document.body.addEventListener('computerFinishedMove', computerFinishedMove);
-
-    document.body.addEventListener('startHumanTurn', startHumanTurn);
-    document.body.addEventListener('onHumanTurnToMove', onHumanTurnToMove);
 };
 
 Game.prototype.startGame = function() {
