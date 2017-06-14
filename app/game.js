@@ -108,6 +108,8 @@ Game.prototype.init = function() {
 };
 Game.prototype.toggleRestart = function() {
     if(this.getPowerState()) {
+        simon.players["computer"].clearMoves();
+        simon.players["human"].clearMoves();
         this.clearSignalNumber();
         this.clearEventListeners();
         this.setupEventListeners();
