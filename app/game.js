@@ -18,6 +18,16 @@ Game.prototype.getPowerState = function() {
 Game.prototype.togglePowerSwitch = function() {
     this.power = !this.power;
 };
+Game.prototype.togglePowerswitchLight = function() {
+    var powerBulb = document.getElementById('powerSwitch');
+
+    if(this.getPowerState()) {
+        powerBulb.classList.add('click');
+    }
+    else {
+        powerBulb.classList.remove('click');
+    }
+};
 
 Game.prototype.getStrictMode = function() {
     return this.strictMode;
@@ -177,18 +187,24 @@ Game.prototype.startHumanTurnEvent = function() {
     simon.enableColorLens();
     simon.players["human"].clearMoves();
 };
-Game.prototype.checkHumanMoveEvent = function(signal) {
+Game.prototype.checkHumanMoveEvent = function(humanSignal) {
     console.log("checking human move event");
 
     var computerIndex = 0;
     var computerSignal = this.players["computer"].moves[computerIndex];
 
-    this.players["human"].setMove(signal);
+    this.players["human"].setMove(humanSignal);
+    this.animateHumanMoves(humanSignal);
 
-    if(signal != computerSignal) {
+    if(humanSignal != computerSignal && this.getStrictMode()) {
         alert("Wrong move");
         return simon.toggleRestart();
     }
+    else if(humanSignal === computerSignal) {
+        alert("Correct move")
+
+    }
+
     simon.humanFinishedMoveEvent();
 
 };
@@ -199,20 +215,8 @@ Game.prototype.humanFinishedMoveEvent = function() {
     document.dispatchEvent(startComputerTurnEvent);
 };
 
-Game.prototype.checkHumanMove = function(signal) {
-    console.log("Checking human move");
 
-
-    if(signal != this.players['computer'].moves[this.getCurrentSignalNumber()-1]) {
-        alert("Wrong move");
-    }
-    else if (signal == this.players['computer'].moves[this.getCurrentSignalNumber()-1]) {
-        alert("Correct move");
-    }
-
-    this.animateHumanMoves(signal)
-};
-Game.prototype.animateHumanMoves = function(signal) {
+ Game.prototype.animateHumanMoves = function(signal) {
     console.log(signal)
     var index = 0;
     var game = this;
