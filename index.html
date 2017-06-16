@@ -7,15 +7,15 @@
 </head>
 <body>
   <div id="gameBoard">
-    <div id="powerSwitch" onclick="simon.togglePowerSwitch(); simon.togglePowerswitchLight(); simon.clearDisplayScreen(); "></div>
-    <div id="screen">
-      <p id="digits"></p>
-    </div>
+    <div id="powerSwitch" onclick="simon.togglePowerSwitch(); simon.togglePowerSwitchLight(); simon.clearDisplayScreen(); "></div>
+    <p id="displayScreen">20</p>
 
-    <button class="lens" id="green" onclick="simon.checkHumanMoveEvent('green');"></button>
-    <button class="lens" id="red" onclick="simon.checkHumanMoveEvent('red');"></button>
-    <button class="lens" id="yellow" onclick="simon.checkHumanMoveEvent('yellow');"></button>
-    <button class="lens" id="blue" onclick="simon.checkHumanMoveEvent('blue');"></button>
+
+
+      <button class="lens" id="green" onclick="simon.checkHumanMoveEvent('green');"></button>
+      <button class="lens" id="red" onclick="simon.checkHumanMoveEvent('red');"></button>
+      <button class="lens" id="yellow" onclick="simon.checkHumanMoveEvent('yellow');"></button>
+      <button class="lens" id="blue" onclick="simon.checkHumanMoveEvent('blue');"></button>
 
     <div id="start" onclick="simon.toggleRestart();">Start</div>
     <div id="strictMode" onclick="simon.toggleStrictMode(); simon.toggleStrictModeLight();">Strict</div>

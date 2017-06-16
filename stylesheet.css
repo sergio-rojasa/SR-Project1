@@ -14,20 +14,17 @@
   background-color: gray;
 }
 
-#screen {
-  width: 75%;
+#displayScreen {
+  padding-right: 5%;
+  text-align: right;
+  width: 70%;
   height: 75px;
+  margin: 0 auto;
+  color: #f2f2f2;
+  font-size: 50px;
   background-color: #324E5C;
 }
 
-#digits {
-  float: right;
-  margin-top: 7%;
-  margin-right: 7%;
-  color: #f2f2f2;
-
-  font-size: 50px;
-}
 
 .lens {
   width: 50%;
