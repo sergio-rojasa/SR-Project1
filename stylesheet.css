@@ -77,7 +77,7 @@
 }
 
 #strictMode.click {
-  background-color: red;
+  background-color: #ff2600;
 }
 #strictMode {
   width: 50%;

@@ -35,6 +35,16 @@ Game.prototype.getStrictMode = function() {
 Game.prototype.toggleStrictMode = function() {
     this.strictMode = !this.strictMode;
 };
+Game.prototype.toggleStrictModeLight = function() {
+   var strictModeBulb = document.getElementById("strictMode");
+
+   if(this.getStrictMode()) {
+       strictModeBulb.classList.add("click");
+   }
+   else {
+       strictModeBulb.classList.remove("click");
+   }
+};
 
 Game.prototype.getCurrentSignalNumber = function() {
     return this.signalNumber;
