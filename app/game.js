@@ -81,5 +81,18 @@ Game.prototype.updateDisplayScreen = function() {
     displayScreen.innerHTML = this.getCurrentSignalNumber();
 };
 
+Game.prototype.disableColorLens = function() {
+    document.getElementById("green").disabled = true;
+    document.getElementById('red').disabled = true;
+    document.getElementById('yellow').disabled = true;
+    document.getElementById('blue').disabled = true;
+};
+Game.prototype.enableColorLens = function() {
+    document.getElementById("green").disabled = false;;
+    document.getElementById("red").disabled = false;
+    document.getElementById("yellow").disabled = false;
+    document.getElementById("blue").disabled = false;
+};
+
 var simon = new Game();
 simon.init();
