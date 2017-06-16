@@ -94,5 +94,48 @@ Game.prototype.enableColorLens = function() {
     document.getElementById("blue").disabled = false;
 };
 
+Game.prototype.clearEventListeners = function() {
+    console.log("clear event listeners");
+    document.removeEventListener("startComputerTurnEvent", this.startComputerTurnEvent);
+    document.removeEventListener("onComputerTurnToMoveEvent", this.onComputerTurnToMoveEvent);
+    document.removeEventListener("computerFinishedMoveEvent", this.computerFinishedMoveEvent);
+
+    document.removeEventListener("startHumanTurnEvent", this.startHumanTurnEvent);
+    document.removeEventListener("waitForHumanEvent", this.waitForHumanEvent);
+    document.removeEventListener("checkHumanMoveEvent", this.checkHumanMoveEvent);
+    document.removeEventListener("humanFinishedMoveEvent", this.humanFinishedMoveEvent);
+
+};
+Game.prototype.setupEventListeners = function() {
+    console.log("setup event listeners");
+    document.addEventListener("startComputerTurnEvent", this.startComputerTurnEvent);
+    document.addEventListener("onComputerTurnToMoveEvent", this.onComputerTurnToMoveEvent);
+    document.addEventListener("computerFinishedMoveEvent", this.computerFinishedMoveEvent);
+
+    document.addEventListener("startHumanTurnEvent", this.startHumanTurnEvent);
+    document.addEventListener("waitForHumanEvent", this.waitForHumanEvent);
+    document.addEventListener("checkHumanMoveEvent", this.checkHumanMoveEvent);
+    document.addEventListener("humanFinishedMoveEvent", this.humanFinishedMoveEvent);
+};
+
+Game.prototype.startComputerTurnEvent = function() {
+    console.log("start computer turn event");
+
+     console.log(this);
+};
+
+Game.prototype.init = function() {
+    this.addPlayer("human");
+    this.addPlayer("computer");
+
+    this.players["computer"].generateRandomSignal = function() {
+        var numberOfSignals = 4;
+        var signals = ["green", "red", "yellow", "blue"];
+
+        var generatedRandomSignal = signals[Math.floor(Math.random() * numberOfSignals)];
+
+        return generatedRandomSignal;
+    };
+};
 var simon = new Game();
 simon.init();
