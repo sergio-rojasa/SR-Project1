@@ -157,10 +157,9 @@ Game.prototype.animateComputerMoves = function(currentSignalNumber) {
 
     var computerMovesAnimation = setInterval(function() {
         var computerSignal = game.players["computer"].moves[signal-1];
-        console.log(computerSignal);
+
         simon.lightUpLens(computerSignal);
         simon.playTone(computerSignal);
-        console.log(currentSignalNumber);
 
         if(signal >= currentSignalNumber) {
             clearInterval(computerMovesAnimation);
@@ -168,25 +167,8 @@ Game.prototype.animateComputerMoves = function(currentSignalNumber) {
             var computerFinishedMoveEvent = new Event("computerFinishedMoveEvent");
             document.dispatchEvent(computerFinishedMoveEvent);
         }
-
-
-
         signal = signal + 1;
     }, 1000);
-    /*var computerMoveAnimation = setInterval(function() {
-        var computerSignal = game.players["computer"].moves[signal-1];
-
-        game.lightUpLens(computerSignal);
-        game.playTone(computerSignal);
-
-        signal = signal + 1;
-        if(signal == currentSignalNumber) {
-            clearInterval(computerMoveAnimation);
-
-            var computerFinishedMoveEvent = new Event("computerFinishedMoveEvent");
-            document.dispatchEvent(computerFinishedMoveEvent);
-        }
-    }, 1000);*/
 };
 
 
@@ -227,20 +209,43 @@ Game.prototype.checkHumanMoveEvent = function(humanSignal) {
     simon.playTone(humanSignal);
 
     var currentSignalNumber = this.getCurrentSignalNumber();
-    var humanTotalMove = simon.players["human"].moves.length;
-    var computerSignal = simon.players["computer"].moves[humanTotalMove];
+    var humanTotalMoves = simon.players["human"].moves.length;
+    var computerMove = 0;
+    var computerSignal = simon.players["computer"].moves[computerMove];
 
+    console.log(humanTotalMoves);
     console.log(currentSignalNumber);
+
+    console.log(humanSignal);
+    console.log(computerSignal);
+    if(humanSignal != computerSignal && this.getStrictModeState()) {
+        return this.toggleRestart();
+    }
+    else if(humanSignal != computerSignal) {
+        this.animateComputerMoves(this.getCurrentSignalNumber());
+    }
+    if(humanSignal == computerSignal) {
+        console.log(currentSignalNumber);
+        console.log(humanTotalMoves);
+        if(humanTotalMoves == 20) {
+            console.log("you win");
+        }
+        if(humanTotalMoves < currentSignalNumber) {
+            console.log("wait");
+        }
+        else {
+            var startComputerTurnEvent = new Event("startComputerTurnEvent");
+            document.dispatchEvent(startComputerTurnEvent);
+        }
+    }
+/*    console.log(currentSignalNumber);
 
     console.log(humanTotalMove);
 
-    if(humanTotalMove == 20) {
-        console.log("you won");
-    }
+
     if(humanTotalMove == currentSignalNumber) {
-        var startComputerTurnEvent = new Event("startComputerTurnEvent");
-        document.dispatchEvent(startComputerTurnEvent);
-    }
+
+    }*/
     /*if(humanTotalMove <= currentSignalNumber) {
         console.log("human make move");
 
