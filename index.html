@@ -7,7 +7,7 @@
 </head>
 <body>
   <div id="gameBoard">
-    <div id="powerSwitch" onclick="simon.togglePowerSwitch(); simon.togglePowerSwitchLight(); simon.clearDisplayScreen(); "></div>
+    <div id="powerSwitch" onclick="simon.togglePowerSwitch(); simon.checkPowertStateToDisableLens(); simon.togglePowerSwitchLight(); simon.clearDisplayScreen(); ">Power</div>
     <p id="displayScreen"></p>
 
       <button class="lens" id="green" onclick="simon.checkHumanMoveEvent('green');"></button>

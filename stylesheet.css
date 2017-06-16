@@ -11,6 +11,8 @@
 #powerSwitch {
   width: 25%;
   height: 75px;
+  color: white;
+  text-align: center;
   background-color: gray;
 }
 
