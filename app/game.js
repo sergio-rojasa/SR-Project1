@@ -125,6 +125,7 @@ Game.prototype.startComputerTurnEvent = function() {
 };
 
 Game.prototype.init = function() {
+    console.log("init");
     this.addPlayer("human");
     this.addPlayer("computer");
 
@@ -137,5 +138,27 @@ Game.prototype.init = function() {
         return generatedRandomSignal;
     };
 };
+Game.prototype.toggleRestart = function() {
+    console.log("toggle restart");
+    if(this.getPowerState()) {
+        this.players["computer"].clearMoves();
+        this.players["human"].clearMoves();
+
+        this.clearSignalNumber();
+        this.clearDisplayScreen();
+
+        this.clearEventListeners();
+        this.setupEventListeners();
+
+        this.startGame();
+    }
+};
+Game.prototype.startGame = function() {
+    console.log("start game");
+
+    var startComputerTurnEvent = new Event("startComputerTurnEvent");
+    document.dispatchEvent(startComputerTurnEvent);
+};
+
 var simon = new Game();
 simon.init();
