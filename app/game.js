@@ -1,3 +1,7 @@
+
+
+
+
 var Game = function() {
     this.power = false;
     this.strictMode = false;
@@ -12,6 +16,8 @@ var Game = function() {
     };
     this.humanPressedButton = false;
 };
+
+
 
 Game.prototype.getPowerState = function() {
     return this.power;
@@ -108,6 +114,7 @@ Game.prototype.clearEventListeners = function() {
     document.removeEventListener("computerFinishedMoveEvent", this.computerFinishedMoveEvent);
 
     document.removeEventListener("startHumanTurnEvent", this.startHumanTurnEvent);
+//    document.removeEventListener("waitForHumanEvent", this.waitForHumanEvent);
     document.removeEventListener("checkHumanMoveEvent", this.checkHumanMoveEvent);
     document.removeEventListener("humanFinishedMoveEvent", this.humanFinishedMoveEvent);
 
@@ -119,6 +126,7 @@ Game.prototype.setupEventListeners = function() {
     document.addEventListener("computerFinishedMoveEvent", this.computerFinishedMoveEvent);
 
     document.addEventListener("startHumanTurnEvent", this.startHumanTurnEvent);
+    //document.addEventListener("waitForHumanEvent", this.waitForHumanEvent);
     document.addEventListener("checkHumanMoveEvent", this.checkHumanMoveEvent);
     document.addEventListener("humanFinishedMoveEvent", this.humanFinishedMoveEvent);
 };
@@ -176,11 +184,29 @@ Game.prototype.startHumanTurnEvent = function() {
     simon.enableColorLens();
     simon.players["human"].clearMoves();
 
-
+    startWaitForHuman();
+    //var waitForHumanEvent = new Event("waitForHumanEvent")
+    //document.dispatchEvent(waitForHumanEvent);
 };
+
+var timer = 0;;
+function startWaitForHuman() {
+    console.log("start wait for human");
+
+    timer = setTimeout(function() {
+        console.log("restart");
+        return simon.toggleRestart();
+    }, 5000);
+
+}
+function stopWaitForHuman() {
+    clearTimeout(timer);
+}
+
 Game.prototype.checkHumanMoveEvent = function(humanSignal) {
     console.log("check human move event");
 
+    stopWaitForHuman();
     this.players["human"].setMove(humanSignal);
     simon.lightUpLens(humanSignal);
     simon.playTone(humanSignal);
@@ -190,11 +216,6 @@ Game.prototype.checkHumanMoveEvent = function(humanSignal) {
 
     var computerSignal = simon.players["computer"].moves[humanTotalMoves-1];
 
-    console.log(humanTotalMoves);
-    console.log(currentSignalNumber);
-
-    console.log(humanSignal);
-    console.log(computerSignal);
 
     if(humanSignal != computerSignal && this.getStrictModeState()) {
         return this.toggleRestart();
@@ -209,7 +230,7 @@ Game.prototype.checkHumanMoveEvent = function(humanSignal) {
             alert("you won");
         }
         if(humanTotalMoves < currentSignalNumber) {
-            console.log("wait");
+            startWaitForHuman();
         }
         else  {
             var humanFinishedMoveEvent = new Event("humanFinishedMoveEvent");
@@ -259,6 +280,5 @@ Game.prototype.startGame = function() {
     var startComputerTurnEvent = new Event("startComputerTurnEvent");
     document.dispatchEvent(startComputerTurnEvent);
 };
-
 var simon = new Game();
 simon.init();
