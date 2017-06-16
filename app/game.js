@@ -187,8 +187,6 @@ Game.prototype.checkHumanMoveEvent = function(humanSignal) {
 
     var currentSignalNumber = this.getCurrentSignalNumber();
     var humanTotalMoves = simon.players["human"].moves.length;
-    var computerMoves = 1;
-    //var computerSignal = simon.players["computer"].moves[computerMoves-1];
 
     var computerSignal = simon.players["computer"].moves[humanTotalMoves-1];
 
@@ -202,6 +200,7 @@ Game.prototype.checkHumanMoveEvent = function(humanSignal) {
         return this.toggleRestart();
     }
     else if(humanSignal != computerSignal) {
+        this.disableColorLens();
         this.animateComputerMoves(this.getCurrentSignalNumber());
     }
     if(humanSignal == computerSignal) {
