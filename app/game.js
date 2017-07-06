@@ -11,6 +11,7 @@ var Game = function() {
         "blue": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3")
     };
 };
+
 Game.prototype.getPowerState = function() {
     return this.power;
 };
@@ -19,6 +20,7 @@ Game.prototype.togglePowerSwitch = function() {
 };
 Game.prototype.togglePowerSwitchLight = function() {
     var powerSwitchLightBulb = document.getElementById("powerSwitch");
+
     if(this.getPowerState()) {
         powerSwitchLightBulb.classList.add("click");
     }
@@ -30,7 +32,7 @@ Game.prototype.checkPowertStateToDisableLens = function() {
     if(!this.getPowerState()) {
         this.disableColorLens();
     }
-}
+};
 
 Game.prototype.getStrictModeState = function() {
     return this.strictMode;
@@ -47,7 +49,6 @@ Game.prototype.toggleStrictModeLight = function() {
         strictModeLightBulb.classList.remove("click");
     }
 };
-
 
 Game.prototype.getCurrentSignalNumber = function() {
     return this.signalNumber;
@@ -77,12 +78,10 @@ Game.prototype.lightUpLens = function(lightSignal) {
 
 Game.prototype.clearDisplayScreen = function() {
     var displayScreen = document.getElementById("displayScreen");
-
     displayScreen.innerHTML = "";
 };
 Game.prototype.updateDisplayScreen = function() {
     var displayScreen = document.getElementById("displayScreen");
-
     displayScreen.innerHTML = this.getCurrentSignalNumber();
 };
 
@@ -119,38 +118,42 @@ Game.prototype.setupEventListeners = function() {
     document.body.addEventListener("humanFinishedMoveEvent", this.humanFinishedMoveEvent);
 };
 
-Game.prototype.startComputerTurnEvent = function() {
-    simon.disableColorLens();
-    simon.addOneSignalNumber();
-    simon.updateDisplayScreen();
+Game.prototype.startComputerTurnEvent = function(e) {
+    var game = e.detail;
+    game.disableColorLens();
+    game.addOneSignalNumber();
+    game.updateDisplayScreen();
 
-    var onComputerTurnToMoveEvent = new Event("onComputerTurnToMoveEvent");
+    var onComputerTurnToMoveEvent = new CustomEvent("onComputerTurnToMoveEvent", {"detail": game});
     document.body.dispatchEvent(onComputerTurnToMoveEvent);
 };
-Game.prototype.onComputerTurnToMoveEvent = function() {
-    var generatedRandomSignal = simon.players["computer"].generateRandomSignal();
-    simon.players["computer"].setMove(generatedRandomSignal);
+Game.prototype.onComputerTurnToMoveEvent = function(e) {
+    var game = e.detail;
+    var generatedRandomSignal = game.players["computer"].generateRandomSignal();
+    game.players["computer"].setMove(generatedRandomSignal);
 
-    simon.animateComputerMoves(simon.getCurrentSignalNumber());
+    game.animateComputerMoves(game.getCurrentSignalNumber());
 };
-Game.prototype.computerFinishedMoveEvent = function() {
-    var startHumanTurnEvent = new Event("startHumanTurnEvent");
+Game.prototype.computerFinishedMoveEvent = function(e) {
+    var game = e.detail;
+    var startHumanTurnEvent = new CustomEvent("startHumanTurnEvent", {"detail": game});
     document.body.dispatchEvent(startHumanTurnEvent);
 };
 Game.prototype.animateComputerMoves = function(currentSignalNumber) {
     var game = this;
     var signal = 1;
 
+
     var computerMovesAnimation = setInterval(function() {
         var computerSignal = game.players["computer"].moves[signal-1];
 
-        simon.lightUpLens(computerSignal);
-        simon.playTone(computerSignal);
+        game.lightUpLens(computerSignal);
+        game.playTone(computerSignal);
 
         if(signal >= currentSignalNumber) {
             clearInterval(computerMovesAnimation);
 
-            var computerFinishedMoveEvent = new Event("computerFinishedMoveEvent");
+            var computerFinishedMoveEvent = new CustomEvent("computerFinishedMoveEvent", {"detail": game});
             document.body.dispatchEvent(computerFinishedMoveEvent);
         }
         signal = signal + 1;
@@ -158,17 +161,19 @@ Game.prototype.animateComputerMoves = function(currentSignalNumber) {
 };
 
 
-Game.prototype.startHumanTurnEvent = function() {
-    simon.enableColorLens();
-    simon.players["human"].clearMoves();
+Game.prototype.startHumanTurnEvent = function(e) {
+    var game = e.detail;
+    game.enableColorLens();
+    game.players["human"].clearMoves();
 
-    startWaitForHuman();
+    startWaitForHuman(game);
 };
 
 var timer;
-function startWaitForHuman() {
+function startWaitForHuman(game) {
+
     timer = setTimeout(function() {
-        return simon.toggleRestart();
+        return game.toggleRestart();
     }, 5000);
 
 }
@@ -179,12 +184,12 @@ function stopWaitForHuman() {
 Game.prototype.checkHumanMoveEvent = function(humanSignal) {
     stopWaitForHuman();
     this.players["human"].setMove(humanSignal);
-    simon.lightUpLens(humanSignal);
-    simon.playTone(humanSignal);
+    this.lightUpLens(humanSignal);
+    this.playTone(humanSignal);
 
     var currentSignalNumber = this.getCurrentSignalNumber();
-    var humanTotalMoves = simon.players["human"].moves.length;
-    var computerSignal = simon.players["computer"].moves[humanTotalMoves-1];
+    var humanTotalMoves = this.players["human"].moves.length;
+    var computerSignal = this.players["computer"].moves[humanTotalMoves-1];
 
 
     if(humanSignal != computerSignal && this.getStrictModeState()) {
@@ -203,13 +208,14 @@ Game.prototype.checkHumanMoveEvent = function(humanSignal) {
             startWaitForHuman();
         }
         else  {
-            var humanFinishedMoveEvent = new Event("humanFinishedMoveEvent");
+            var humanFinishedMoveEvent = new CustomEvent("humanFinishedMoveEvent", {"detail": this});
             document.body.dispatchEvent(humanFinishedMoveEvent);
         }
     }
 };
-Game.prototype.humanFinishedMoveEvent = function() {
-    var startComputerTurnEvent = new Event("startComputerTurnEvent");
+Game.prototype.humanFinishedMoveEvent = function(e) {
+    var game = e.detail;
+    var startComputerTurnEvent = new CustomEvent("startComputerTurnEvent", {"detail": game});
     document.body.dispatchEvent(startComputerTurnEvent);
 };
 
@@ -242,7 +248,8 @@ Game.prototype.toggleRestart = function() {
     }
 };
 Game.prototype.startGame = function() {
-    var startComputerTurnEvent = new Event("startComputerTurnEvent");
+
+    var startComputerTurnEvent = new CustomEvent("startComputerTurnEvent", {"detail": this});
     document.body.dispatchEvent(startComputerTurnEvent);
 };
 var simon = new Game();
