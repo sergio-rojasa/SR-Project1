@@ -28,7 +28,7 @@ Game.prototype.togglePowerSwitchLightBulb = function() {
         powerSwitchLightBulb.classList.remove("click");
     }
 };
-Game.prototype.checkPowertStateToDisableColorLens = function() {
+Game.prototype.checkPowerStateToDisableColorLens = function() {
     if(!this.getPowerState()) {
         this.disableColorLens();
     }
@@ -145,6 +145,9 @@ Game.prototype.animateComputerMoves = function(currentSignalNumber) {
 
 
     var computerMovesAnimation = setInterval(function() {
+        if(!game.getPowerState()) {
+            clearInterval(computerMovesAnimation);
+        }
         var computerSignal = game.players["computer"].moves[signal-1];
 
         game.lightUpColorLens(computerSignal);
