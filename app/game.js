@@ -18,7 +18,7 @@ Game.prototype.getPowerState = function() {
 Game.prototype.togglePowerSwitch = function() {
     this.power = !this.power;
 };
-Game.prototype.togglePowerSwitchLight = function() {
+Game.prototype.togglePowerSwitchLightBulb = function() {
     var powerSwitchLightBulb = document.getElementById("powerSwitch");
 
     if(this.getPowerState()) {
@@ -28,7 +28,7 @@ Game.prototype.togglePowerSwitchLight = function() {
         powerSwitchLightBulb.classList.remove("click");
     }
 };
-Game.prototype.checkPowertStateToDisableLens = function() {
+Game.prototype.checkPowertStateToDisableColorLens = function() {
     if(!this.getPowerState()) {
         this.disableColorLens();
     }
@@ -40,7 +40,7 @@ Game.prototype.getStrictModeState = function() {
 Game.prototype.toggleStrictMode = function() {
     this.strictMode = !this.strictMode;
 };
-Game.prototype.toggleStrictModeLight = function() {
+Game.prototype.toggleStrictModeLightBulb = function() {
     var strictModeLightBulb = document.getElementById("strictMode");
     if(this.getStrictModeState()) {
         strictModeLightBulb.classList.add("click");
@@ -66,8 +66,8 @@ Game.prototype.addPlayer = function(name) {
 Game.prototype.playTone = function(toneSignal) {
     this.tones[toneSignal].play();
 };
-Game.prototype.lightUpLens = function(lightSignal) {
-    var colorLens = document.getElementById(lightSignal);
+Game.prototype.lightUpColorLens = function(colorSignal) {
+    var colorLens = document.getElementById(colorSignal);
 
     colorLens.classList.add("click");
     setTimeout(function() {
@@ -147,7 +147,7 @@ Game.prototype.animateComputerMoves = function(currentSignalNumber) {
     var computerMovesAnimation = setInterval(function() {
         var computerSignal = game.players["computer"].moves[signal-1];
 
-        game.lightUpLens(computerSignal);
+        game.lightUpColorLens(computerSignal);
         game.playTone(computerSignal);
 
         if(signal >= currentSignalNumber) {
@@ -184,7 +184,7 @@ function stopWaitForHuman() {
 Game.prototype.checkHumanMoveEvent = function(humanSignal) {
     stopWaitForHuman();
     this.players["human"].setMove(humanSignal);
-    this.lightUpLens(humanSignal);
+    this.lightUpColorLens(humanSignal);
     this.playTone(humanSignal);
 
     var currentSignalNumber = this.getCurrentSignalNumber();
@@ -248,7 +248,6 @@ Game.prototype.toggleRestart = function() {
     }
 };
 Game.prototype.startGame = function() {
-
     var startComputerTurnEvent = new CustomEvent("startComputerTurnEvent", {"detail": this});
     document.body.dispatchEvent(startComputerTurnEvent);
 };
